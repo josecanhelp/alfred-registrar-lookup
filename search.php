@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
 
+use RegistrarLookup\Item;
 use Zttp\Zttp;
 
 class Lookup
@@ -72,4 +73,9 @@ $filteredResults = array_filter([
     'registrarById' => $registrarById,
 ]);
 
-print_r(array_shift($filteredResults));
+// Will use later to inform the user how accurate the result may be
+$firstKey = array_key_first($filteredResults);
+
+$finalAnswer = array_shift($filteredResults);
+
+print_r(json_encode(['items' => [new Item($finalAnswer ?? 'n/a', $firstKey, $finalAnswer ?? 'n/a' )]]));
