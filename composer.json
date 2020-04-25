@@ -1,0 +1,16 @@
+{
+    "name": "josecanhelp/alfred-registrar-lookup",
+    "description": "Lookup Reseller/Registrar Information for a given Domain",
+    "type": "alfred-workflow",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jose Soto",
+            "email": "josecanhelp@gmail.com"
+        }
+    ],
+    "require": {
+        "spatie/once": "^2.2",
+        "kitetail/zttp": "^0.6.0"
+    }
+}
