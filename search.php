@@ -35,14 +35,28 @@ function extractValueFromLines($lines)
     }
 }
 
+function getStringBetween($string, $start, $end){
+    $string = ' ' . $string;
+    $ini = strpos($string, $start);
+    if ($ini == 0) return '';
+    $ini += strlen($start);
+    $len = strpos($string, $end, $ini) - $ini;
+    return substr($string, $ini, $len);
+}
+
 $lookupResult = Lookup::getWhoisFor($argv[1]);
 $resultArray = preg_split('/\n+/', trim($lookupResult));
 
 $resellerLines = preg_grep("/^Reseller/", $resultArray);
 $reseller = extractValueFromLines($resellerLines);
 
-$registrarLines = preg_grep("/^Registrar:/", $resultArray);
-$registrar = extractValueFromLines($registrarLines);
+if (strpos($argv[1], '.co.uk') !== false) {
+    $registrarLines = getStringBetween($lookupResult, 'Registrar:', "\r\n\r\n");
+    $registrar = preg_replace('/\s+/', ' ', trim($registrarLines));
+} else {
+    $registrarLines = preg_grep("/^Registrar:/", $resultArray);
+    $registrar = extractValueFromLines($registrarLines);
+}
 
 // This is a string used in Hover responses, it could work for others
 $regServiceProvider = null;
